@@ -1,0 +1,14 @@
+{
+  "name": "Daily Dose of Dedication",
+  "short_name": "4D",
+  "description": "Operation DDDD — Daily Dose of Dedication tracker",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D1F17",
+  "theme_color": "#52B788",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
