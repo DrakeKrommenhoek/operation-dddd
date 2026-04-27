@@ -46,6 +46,17 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     ::-webkit-scrollbar{display:none} *{scrollbar-width:none}
     html{transition:background 400ms ease,color 400ms ease}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 10%, rgba(29,75,53,0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 80% 80%, rgba(82,183,136,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 30% at 60% 30%, rgba(200,169,110,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
     body{
       font-family:'DM Sans',-apple-system,sans-serif;
       background:var(--bg); color:var(--text);
@@ -61,7 +72,7 @@
       border:1px solid var(--border); box-shadow:var(--shadow);
       transition:border-color .2s,background 400ms ease;
     }
-    .card:hover{border-color:var(--border-h)}
+    .card:hover{border-color:rgba(82,183,136,0.4);box-shadow:0 4px 24px rgba(0,0,0,0.3)}
     [data-theme="morning"] .card,[data-theme="midday"] .card{border:none}
 
     /* ── STICKY HEADER ───────────────────────────────────────── */
@@ -74,11 +85,11 @@
     }
     .header-row1{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
     .app-name{font-family:'DM Serif Display',serif;font-size:1.35em;line-height:1.1;letter-spacing:-.01em}
-    .streaks-col{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+    .streaks-col{display:flex;flex-direction:row;align-items:center;gap:8px}
     .streak-pill{
       display:inline-flex;align-items:center;gap:5px;
-      background:var(--border);border-radius:99px;padding:4px 10px;
-      font-size:.72em;font-weight:700;
+      background:var(--border);border-radius:99px;padding:3px 9px;
+      font-size:.65em;font-weight:700;
     }
     .streak-num{font-family:'DM Serif Display',serif;font-size:1.25em;color:var(--accent)}
     .date-line{font-size:.72em;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
@@ -463,6 +474,23 @@
       <div class="phase-label" id="phaseLabel"></div>
       <div class="phase-mission" id="phaseMission"></div>
       <div class="mantra">"I keep my word to myself. That's where confidence lives."</div>
+<div id="phase-banner" style="text-align:center;font-style:italic;color:#C8A96E;font-size:13px;margin-top:8px;padding:0 20px;"></div>
+<script>
+(function(){
+  const PHASES=[
+    {start:"2026-04-20",end:"2026-04-26",name:"Week 1 · Jaco",mission:"Ground yourself. Stack the first wins."},
+    {start:"2026-04-27",end:"2026-05-10",name:"Week 2–3 · Tamarindo",mission:"Build the rhythm. No excuses in paradise."},
+    {start:"2026-05-11",end:"2026-05-17",name:"Week 4 · W&L",mission:"Close strong. Finish what you started."},
+    {start:"2026-05-18",end:"2026-05-24",name:"Week 5 · Home",mission:"Transition with intention. Don't coast."},
+    {start:"2026-05-25",end:"2026-05-31",name:"Pre-Denver",mission:"Almost there. Arrive sharp."},
+    {start:"2026-06-01",end:"2026-06-30",name:"Denver",mission:"Day 1 at Mountaingate. You built this."}
+  ];
+  const _pd=new Date();
+  const today=`${_pd.getFullYear()}-${String(_pd.getMonth()+1).padStart(2,'0')}-${String(_pd.getDate()).padStart(2,'0')}`;
+  const phase=PHASES.find(p=>today>=p.start&&today<=p.end);
+  if(phase)document.getElementById('phase-banner').textContent=phase.name+' — "'+phase.mission+'"';
+})();
+</script>
       <div class="xp-row">
         <span class="xp-lbl">TODAY'S XP</span>
         <span class="xp-val" id="xpVal">0 / 320 XP</span>
@@ -470,6 +498,20 @@
       <div class="xp-bar-bg"><div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div></div>
       <div class="chain" id="chain"></div>
     </header>
+  </div>
+
+  <div id="formula-row" style="display:flex;gap:8px;justify-content:center;margin:12px 16px 8px;flex-wrap:wrap;"></div>
+  <div id="schedule-card" style="margin:0 16px 0;background:#132218;border:1px solid rgba(82,183,136,0.15);border-radius:16px;overflow:hidden;">
+    <div onclick="toggleSchedule()" style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#4a6b54;margin-bottom:3px;">Today's Schedule</div>
+        <div id="schedule-day-title" style="font-family:'DM Serif Display',serif;font-size:1.05rem;color:#E8F5E9;"></div>
+      </div>
+      <div id="schedule-arrow" style="color:#4a6b54;font-size:12px;transition:transform 0.2s;">▼</div>
+    </div>
+    <div id="schedule-body" style="display:none;border-top:1px solid rgba(82,183,136,0.1);padding:16px 18px;">
+      <div id="schedule-blocks"></div>
+    </div>
   </div>
 
   <!-- SCORE RING -->
@@ -540,13 +582,6 @@
       <div style="font-size:.62em;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">TODAY'S BODY CHECK</div>
       <div id="bodyArea"></div>
       <div id="compareRow" style="display:none"></div>
-    </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
-        <div style="font-size:.62em;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.1em">DAY MOMENTS</div>
-        <button class="btn-sm" onclick="addMoment()">+ Add</button>
-      </div>
-      <div class="moments-strip" id="momentsStrip"></div>
     </div>
     <button class="btn-wall" id="wallBtn" onclick="toggleWall()">📸 30-Day Progress Wall</button>
     <div id="wallGrid" style="display:none"></div>
@@ -1077,6 +1112,7 @@ function toggleCheck(fi, pi) {
   updateXPBar();
   saveHistory();
   checkGreenDay();
+  updateFormula();
 }
 
 function saveHistory() {
@@ -1353,9 +1389,203 @@ render();               // populate header, ring, heatmap, photo
 buildReflectSection();  // build night reflection section
 setTabTop();            // position tab bar below sticky header
 checkRedDay();
+updateFormula();
+renderSchedule();
 
 window.addEventListener('resize', setTabTop);
 setInterval(applyTheme, 60000);
+
+function updateFormula(){
+  function isChecked(label){
+    for(const row of document.querySelectorAll('.item-row.checked')){
+      const name=row.querySelector('.item-name');
+      if(name&&name.textContent.toLowerCase().includes(label.toLowerCase()))return true;
+    }
+    return false;
+  }
+  const move=isChecked('yoga')||isChecked('workout')||isChecked('outdoors');
+  const connect=isChecked('real conversation')||isChecked('compliment')||isChecked('listen');
+  const build=isChecked('deep work')||isChecked('brainstorm')||isChecked('pe prep');
+  const all=move&&connect&&build;
+  const hour=new Date().getHours();
+  const missing=!move?'Move':!connect?'Connect':'Build';
+  const totalChecked=document.querySelectorAll('.item-row.checked').length;
+  const row=document.getElementById('formula-row');
+  if(!row)return;
+  row.innerHTML=
+    pill('🏃 Move',move)+
+    pill('🤝 Connect',connect)+
+    pill('🔨 Build',build)+
+    (all?'<span style="padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;background:rgba(82,183,136,0.3);color:#74C69D;border:1px solid rgba(82,183,136,0.5)">🔒 LOCKED IN</span>':'')+
+    (!all&&hour>=18&&totalChecked>0?'<span style="padding:4px 12px;border-radius:12px;font-size:11px;color:#E76F51;font-weight:700">Missing: '+missing+'</span>':'');
+}
+function pill(label,active){
+  return'<span style="padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;'+
+    'background:'+(active?'rgba(82,183,136,0.2)':'rgba(255,255,255,0.05)')+';'+
+    'color:'+(active?'#52B788':'#4a6b54')+';'+
+    'border:1px solid '+(active?'rgba(82,183,136,0.4)':'transparent')+'">'+label+'</span>';
+}
+
+const SCHEDULE={
+  "2026-04-27":{title:"Arrival Day",theme:"Land, ground, sleep early",blocks:[
+    {time:"Flight",label:"Travel to Liberia",tags:["Soul","Mind"]},
+    {time:"Eve",label:"Check in + Dinner at Sol Sanctuary",tags:["Character"]},
+    {time:"~10p",label:"Early night — basics only",tags:["Soul","Basics"]}
+  ]},
+  "2026-04-28":{title:"Day 1 — System On",theme:"Explore + Class + First green day",blocks:[
+    {time:"6:30a",label:"Wake + Soul block before phone",tags:["Soul"]},
+    {time:"7:00a",label:"Morning movement — walk to beach or yoga",tags:["Body","Mind"]},
+    {time:"8:00a",label:"Breakfast + body basics",tags:["Body","Basics"]},
+    {time:"9:00a",label:"Group explore + safety orientation",tags:["Character"]},
+    {time:"11a",label:"Class time + Lunch",tags:["Mind","Craft"]},
+    {time:"3:00p",label:"Free block — Reading + Deep Work",tags:["Mind","Craft"]},
+    {time:"6:00p",label:"Dinner + real conversation",tags:["Character"]},
+    {time:"9:30p",label:"Wind down + Reflection",tags:["Soul","Basics"]}
+  ]},
+  "2026-04-29":{title:"Class + Guest Speaker",theme:"Sustainable entrepreneur",blocks:[
+    {time:"6:30a",label:"Soul block + movement",tags:["Soul","Body"]},
+    {time:"9:00a",label:"Class + discussion",tags:["Mind","Craft"]},
+    {time:"Aft",label:"Guest speaker — local entrepreneur",tags:["Character","Craft"]},
+    {time:"4:00p",label:"Workout + deep work",tags:["Body","Craft"]},
+    {time:"9:00p",label:"Wind down + 4D log",tags:["Soul","Basics"]}
+  ]},
+  "2026-04-30":{title:"Class Day",theme:"Build the rhythm",blocks:[
+    {time:"6:30a",label:"Soul block + movement",tags:["Soul","Body"]},
+    {time:"9:00a",label:"Class + discussion",tags:["Mind","Craft"]},
+    {time:"2:00p",label:"Workout + deep work + reading",tags:["Body","Craft","Mind"]},
+    {time:"9:00p",label:"Wind down",tags:["Soul","Basics"]}
+  ]},
+  "2026-05-01":{title:"Ocean Exploration Day",theme:"Snorkeling half-day. Afternoon reflection.",blocks:[
+    {time:"6:30a",label:"Soul block + walk to beach",tags:["Soul","Body","Mind"]},
+    {time:"Morning",label:"Ocean Exploration — snorkeling + conservation",tags:["Body","Character"]},
+    {time:"1:00p",label:"Lunch + Afternoon reflection",tags:["Mind","Craft"]},
+    {time:"4:00p",label:"Free block — PE prep",tags:["Craft"]}
+  ]},
+  "2026-05-02":{title:"Rest + Recover Day",theme:"Journaling, optional yoga, unstructured.",blocks:[
+    {time:"7:00a",label:"Soul block — slow morning",tags:["Soul","Mind"]},
+    {time:"8:00a",label:"Optional yoga + beach walk",tags:["Body"]},
+    {time:"10:00a",label:"Reading + journaling block",tags:["Mind","Craft"]},
+    {time:"2:00p",label:"Workout + one craft block",tags:["Body","Craft"]},
+    {time:"Eve",label:"Social dinner + wind down",tags:["Character","Soul"]}
+  ]},
+  "2026-05-03":{title:"Sea Turtle Research Day",theme:"Conservation experience.",blocks:[
+    {time:"6:30a",label:"Soul block + beach walk",tags:["Soul","Body","Mind"]},
+    {time:"Morning",label:"Sea Turtle Research Experience",tags:["Character","Mind","Craft"]},
+    {time:"2:00p",label:"Afternoon free — coursework or build",tags:["Craft","Mind"]},
+    {time:"5:00p",label:"Workout",tags:["Body"]}
+  ]},
+  "2026-05-04":{title:"Class + Guest Speaker",theme:"Buddhist Economics entrepreneur.",blocks:[
+    {time:"6:30a",label:"Soul block + movement",tags:["Soul","Body"]},
+    {time:"9:00a",label:"Coursework + discussion + reflection",tags:["Mind","Craft"]},
+    {time:"Aft",label:"Guest Speaker",tags:["Character","Craft"]},
+    {time:"4:00p",label:"Workout + deep work",tags:["Body","Craft","Mind"]}
+  ]},
+  "2026-05-05":{title:"Rincon de la Vieja Volcano Hike",theme:"Full day excursion.",blocks:[
+    {time:"6:00a",label:"Early soul block before departure",tags:["Soul","Mind"]},
+    {time:"All day",label:"Volcano hike, waterfall, hot springs",tags:["Body","Character"]},
+    {time:"Return",label:"Septology on the ride back",tags:["Mind"]},
+    {time:"8:00p",label:"Light build block — 30 min max",tags:["Craft","Basics"]}
+  ]},
+  "2026-05-06":{title:"Class + Agriculture Speaker",theme:"Regenerative farming. PE prep focus.",blocks:[
+    {time:"6:30a",label:"Soul block + morning movement",tags:["Soul","Body"]},
+    {time:"All day",label:"Class + discussion + speaker",tags:["Mind","Craft"]},
+    {time:"4:00p",label:"Workout + focused PE prep",tags:["Body","Craft","Mind"]}
+  ]},
+  "2026-05-07":{title:"Coffee, Chocolate + Wildlife",theme:"Fair trade excursion. Last day at Sol.",blocks:[
+    {time:"6:30a",label:"Soul block + last beach morning",tags:["Soul","Body","Mind"]},
+    {time:"All day",label:"Coffee, Chocolate + Wildlife Excursion",tags:["Body","Character"]},
+    {time:"Eve",label:"Pack + light build + wind down",tags:["Body","Craft","Soul","Basics"]}
+  ]},
+  "2026-05-08":{title:"Travel to Rancho Margot",theme:"4hr drive. Arrive, orient, adapt.",blocks:[
+    {time:"6:30a",label:"Soul block before departure",tags:["Soul"]},
+    {time:"Drive",label:"Septology + silence on the drive",tags:["Mind"]},
+    {time:"Arrive",label:"Orientation at Rancho Margot",tags:["Character"]},
+    {time:"Eve",label:"Walk the ranch + dinner + basics",tags:["Body","Basics","Soul"]}
+  ]},
+  "2026-05-09":{title:"Rancho Margot — Day 1",theme:"Yoga, ranch tour, immersion.",blocks:[
+    {time:"6:30a",label:"Soul block — rainforest morning",tags:["Soul","Mind"]},
+    {time:"Morning",label:"Daily yoga",tags:["Body"]},
+    {time:"Day",label:"Ranch tour + Q&A with Juan",tags:["Character","Craft"]},
+    {time:"4:00p",label:"Reading + light build",tags:["Mind","Craft"]}
+  ]},
+  "2026-05-10":{title:"Rancho Margot — Day 2",theme:"Night hike + micro-organism workshop.",blocks:[
+    {time:"6:30a",label:"Soul block + yoga",tags:["Soul","Body"]},
+    {time:"Day",label:"Micro-organism workshop + chocolate making",tags:["Character","Craft"]},
+    {time:"Night",label:"Guided night hike",tags:["Body","Character"]},
+    {time:"4:00p",label:"Reading + inbox dump",tags:["Mind","Craft"]}
+  ]},
+  "2026-05-11":{title:"Return to Sol Sanctuary",theme:"4hr drive back. Relax, reflect.",blocks:[
+    {time:"Morning",label:"Soul block + breakfast + depart",tags:["Soul","Body"]},
+    {time:"Drive",label:"Septology + Rancho reflection",tags:["Mind","Craft"]},
+    {time:"Eve",label:"Arrive Sol — beach, dinner, swim",tags:["Body","Soul"]}
+  ]},
+  "2026-05-12":{title:"Final Coursework Day",theme:"Best build day of the trip.",blocks:[
+    {time:"6:30a",label:"Soul block + beach morning",tags:["Soul","Body","Mind"]},
+    {time:"Morning",label:"Coursework + sustainability reflection",tags:["Mind","Craft"]},
+    {time:"2:00p",label:"Best build block of the trip — 90 min",tags:["Craft"]},
+    {time:"5:00p",label:"Workout + dinner + character items",tags:["Body","Character"]}
+  ]},
+  "2026-05-13":{title:"Local Farm + Optional Horseback",theme:"Last full day. Make it count.",blocks:[
+    {time:"6:30a",label:"Final Sol morning — soul block + beach",tags:["Soul","Body","Mind"]},
+    {time:"Morning",label:"Local farm visit",tags:["Character"]},
+    {time:"Optional",label:"Horseback riding",tags:["Body","Character"]},
+    {time:"Eve",label:"Final dinner + pack + reflection",tags:["Character","Soul","Basics"]}
+  ]},
+  "2026-05-14":{title:"Departure Day",theme:"Breakfast. Transfer. Fly home.",blocks:[
+    {time:"Morning",label:"Soul block + final breakfast",tags:["Soul","Body"]},
+    {time:"Drive",label:"Septology + trip synthesis note",tags:["Mind","Craft"]},
+    {time:"Flight",label:"W&L final week begins",tags:[]}
+  ]}
+};
+
+const TAG_COLORS={
+  Body:"#E76F51",Mind:"#4A90D9",Soul:"#C8A96E",
+  Craft:"#52B788",Character:"#9B59B6",Basics:"#888"
+};
+
+function renderSchedule(){
+  const today=new Date().toISOString().slice(0,10);
+  const day=SCHEDULE[today];
+  const titleEl=document.getElementById('schedule-day-title');
+  const blocksEl=document.getElementById('schedule-blocks');
+  if(!titleEl||!blocksEl)return;
+  if(!day){
+    titleEl.textContent='Costa Rica begins tomorrow';
+    blocksEl.innerHTML=`
+      <div style="font-size:11px;color:#74C69D;margin-bottom:14px;font-style:italic;">Schedule activates April 27 · Sol Sanctuary</div>
+      <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
+        <div style="font-size:10px;font-weight:700;color:#4a6b54;min-width:44px;padding-top:2px;text-align:right;">Tomorrow</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;color:#E8F5E9;margin-bottom:4px;">Arrival Day — Land, ground, sleep early</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${TAG_COLORS['Soul']}22;color:${TAG_COLORS['Soul']}">Soul</span>
+            <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${TAG_COLORS['Body']}22;color:${TAG_COLORS['Body']}">Body</span>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+  titleEl.textContent=day.title+' — '+day.theme;
+  blocksEl.innerHTML=day.blocks.map(b=>`
+    <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
+      <div style="font-size:10px;font-weight:700;color:#4a6b54;min-width:44px;padding-top:2px;text-align:right;">${b.time}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#E8F5E9;margin-bottom:4px;">${b.label}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;">
+          ${b.tags.map(t=>`<span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${TAG_COLORS[t]}22;color:${TAG_COLORS[t]}">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSchedule(){
+  const body=document.getElementById('schedule-body');
+  const arrow=document.getElementById('schedule-arrow');
+  const open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  arrow.style.transform=open?'':'rotate(180deg)';
+}
 </script>
 <script>
   if ('serviceWorker' in navigator) {
