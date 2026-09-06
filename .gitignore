@@ -4,4 +4,11 @@ package.json
 generate-icons.js
 
 .vercel
+.env
 .env*.local
+
+# Generated daily agent output — personal content, not source.
+logs/
+
+# Working copy kept alongside the real tracker.
+4D-tracker-backup.html

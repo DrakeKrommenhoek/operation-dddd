@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation DDDD — Costa Rica Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jungle: #1B4332;
+    --jungle-mid: #2D6A4F;
+    --seafoam: #52B788;
+    --seafoam-light: #74C69D;
+    --sand: #C8A96E;
+    --sand-light: #E9D8A6;
+    --terracotta: #E76F51;
+    --ocean: #4A90D9;
+    --dusk: #9B59B6;
+    --bg: #0D1F17;
+    --card: #132218;
+    --card-raised: #1A2E22;
+    --border: rgba(82,183,136,0.15);
+    --border-hover: rgba(82,183,136,0.4);
+    --text: #E8F5E9;
+    --text-muted: #7aab8a;
+    --text-dim: #4a6b54;
+    --glow: rgba(82,183,136,0.25);
+    --sand-glow: rgba(200,169,110,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(29,75,53,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(82,183,136,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 30% at 60% 30%, rgba(200,169,110,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 60px 0 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--seafoam);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-mantra {
+    font-style: italic;
+    color: var(--sand);
+    font-size: 15px;
+    opacity: 0.9;
+  }
+
+  .hero-arc {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .arc-step {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .arc-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .arc-pill.active {
+    background: var(--jungle-mid);
+    border-color: var(--seafoam);
+    color: var(--seafoam-light);
+    box-shadow: 0 0 12px var(--glow);
+  }
+
+  .arc-arrow {
+    color: var(--text-dim);
+    font-size: 10px;
+    padding: 0 6px;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .legend-title {
+    width: 100%;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SLEEP INFO */
+  .sleep-note {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--sand);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .sleep-note strong {
+    color: var(--sand);
+    font-weight: 600;
+  }
+
+  /* PHASE HEADER */
+  .phase-header {
+    margin: 48px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .phase-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .phase-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--seafoam);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .phase-dates {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .phase-mission {
+    font-style: italic;
+    color: var(--sand);
+    font-size: 13px;
+    margin-bottom: 24px;
+    padding-left: 2px;
+  }
+
+  /* DAY CARD */
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .day-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .day-card.special {
+    border-color: rgba(200,169,110,0.25);
+  }
+
+  .day-card.special:hover {
+    border-color: rgba(200,169,110,0.5);
+    box-shadow: 0 4px 24px var(--sand-glow);
+  }
+
+  .day-header {
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-header:hover { background: rgba(255,255,255,0.02); }
+
+  .day-left { flex: 1; }
+
+  .day-date {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .day-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .day-theme {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .day-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+    max-width: 160px;
+  }
+
+  .badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+
+  .badge-group { background: rgba(74,144,217,0.15); color: #7ab8e8; border: 1px solid rgba(74,144,217,0.2); }
+  .badge-free { background: rgba(82,183,136,0.12); color: var(--seafoam); border: 1px solid rgba(82,183,136,0.2); }
+  .badge-excursion { background: rgba(200,169,110,0.12); color: var(--sand); border: 1px solid rgba(200,169,110,0.2); }
+  .badge-travel { background: rgba(155,89,182,0.12); color: #c39bd3; border: 1px solid rgba(155,89,182,0.2); }
+  .badge-class { background: rgba(231,111,81,0.12); color: #f0a090; border: 1px solid rgba(231,111,81,0.2); }
+
+  .day-expand {
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-top: 2px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .day-expand.open { transform: rotate(180deg); }
+
+  /* DAY BODY */
+  .day-body {
+    display: none;
+    padding: 0;
+  }
+
+  .day-body.open { display: block; }
+
+  /* TIMELINE */
+  .timeline {
+    padding: 16px 20px 20px;
+  }
+
+  .time-block {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .time-block::before {
+    content: '';
+    position: absolute;
+    left: 52px;
+    top: 24px;
+    bottom: -8px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .time-block:last-child::before { display: none; }
+
+  .time-block-gap { margin-bottom: 8px; }
+
+  .tb-time {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    min-width: 36px;
+    padding-top: 4px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .tb-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tb-content {
+    flex: 1;
+    padding-bottom: 16px;
+  }
+
+  .tb-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+
+  .tb-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .tb-dddd {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .dddd-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+
+  .tag-body { background: rgba(231,111,81,0.15); color: #f0a090; }
+  .tag-mind { background: rgba(74,144,217,0.15); color: #7ab8e8; }
+  .tag-soul { background: rgba(200,169,110,0.15); color: var(--sand); }
+  .tag-craft { background: rgba(82,183,136,0.15); color: var(--seafoam); }
+  .tag-character { background: rgba(155,89,182,0.15); color: #c39bd3; }
+  .tag-basics { background: rgba(150,150,150,0.15); color: #aaa; }
+  .tag-formula { background: rgba(82,183,136,0.2); color: var(--seafoam-light); border: 1px solid rgba(82,183,136,0.3); }
+
+  /* NOTES SECTION */
+  .day-notes {
+    border-top: 1px solid var(--border);
+    padding: 14px 20px;
+    background: rgba(0,0,0,0.15);
+  }
+
+  .notes-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .note-item {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-left: 12px;
+    border-left: 2px solid var(--border);
+    margin-bottom: 6px;
+  }
+
+  .note-item:last-child { margin-bottom: 0; }
+
+  .note-item strong { color: var(--seafoam); font-weight: 600; }
+  .note-item.stake { border-left-color: var(--terracotta); }
+  .note-item.stake strong { color: var(--terracotta); }
+  .note-item.connect { border-left-color: var(--sand); }
+  .note-item.connect strong { color: var(--sand); }
+
+  /* GROUP ACTIVITY CALLOUT */
+  .group-callout {
+    margin: 0 20px 16px;
+    padding: 10px 14px;
+    background: rgba(74,144,217,0.08);
+    border: 1px solid rgba(74,144,217,0.2);
+    border-radius: 10px;
+    font-size: 12px;
+    color: #7ab8e8;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .group-callout-icon { flex-shrink: 0; font-size: 14px; }
+
+  /* RANCHO MARGOT NOTE */
+  .location-banner {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: rgba(155,89,182,0.08);
+    border: 1px solid rgba(155,89,182,0.2);
+    border-radius: 10px;
+    font-size: 12px;
+    color: #c39bd3;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* FORMULA TRACKER */
+  .formula-bar {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.1);
+  }
+
+  .formula-item {
+    flex: 1;
+    text-align: center;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: var(--card-raised);
+    border: 1px solid var(--border);
+  }
+
+  .formula-icon { font-size: 14px; margin-bottom: 2px; }
+  .formula-name { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+  .formula-val { font-size: 10px; color: var(--text-muted); margin-top: 2px; line-height: 1.3; }
+
+  /* CLOSING */
+  .closing {
+    margin-top: 60px;
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--card);
+  }
+
+  .closing-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--seafoam);
+    margin-bottom: 12px;
+  }
+
+  .closing-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 20px;
+  }
+
+  .closing-mantra {
+    font-style: italic;
+    color: var(--sand);
+    font-size: 15px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 480px) {
+    .hero-arc { gap: 4px; }
+    .day-badges { max-width: 120px; }
+    .formula-val { font-size: 9px; }
+  }
+
+  /* SCROLL ANIMATION */
+  .day-card {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-card:nth-child(2) { animation-delay: 0.05s; }
+  .day-card:nth-child(3) { animation-delay: 0.1s; }
+  .day-card:nth-child(4) { animation-delay: 0.15s; }
+  .day-card:nth-child(5) { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Operation DDDD × W&L Buddhist Economics</div>
+    <h1 class="hero-title">Costa Rica<br>Daily System</h1>
+    <div class="hero-subtitle">April 27 – May 14, 2026 · Sol Sanctuary + Rancho Margot</div>
+    <div class="hero-mantra">"I keep my word to myself. That's where confidence lives."</div>
+    <div class="hero-arc">
+      <div class="arc-step">
+        <div class="arc-pill">Jaco</div>
+        <div class="arc-arrow">→</div>
+      </div>
+      <div class="arc-step">
+        <div class="arc-pill active">Tamarindo / Sol Sanctuary</div>
+        <div class="arc-arrow">→</div>
+      </div>
+      <div class="arc-step">
+        <div class="arc-pill">W&L</div>
+        <div class="arc-arrow">→</div>
+      </div>
+      <div class="arc-step">
+        <div class="arc-pill">Home</div>
+        <div class="arc-arrow">→</div>
+      </div>
+      <div class="arc-step">
+        <div class="arc-pill">Denver</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLEEP NOTE -->
+  <div class="sleep-note">
+    <strong>Your sleep pattern is built in.</strong> You tend to sleep 6–7.5 hours and stay up late. Every schedule below assumes a <strong>11:30pm–midnight bedtime</strong> and a <strong>6:30–7:30am natural wake</strong>. Morning items are front-loaded before group programming. Deep work and craft happen in evening free blocks, not mornings.
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Pillar Color Key</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E76F51"></div> Body</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4A90D9"></div> Mind</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8A96E"></div> Soul</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#52B788"></div> Craft</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9B59B6"></div> Character</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#888"></div> Basics</div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- PHASE 1: SOL SANCTUARY (APR 27–MAY 7) -->
+  <!-- ═══════════════════════════════ -->
+
+  <div class="phase-dates">April 27 – May 7 · Sol Sanctuary, Playa Grande</div>
+  <div class="phase-header">
+    <div class="phase-line"></div>
+    <div class="phase-label">Phase — Build the Rhythm</div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="phase-mission">"No excuses in paradise. This is where the system proves itself."</div>
+
+  <!-- APR 27 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Monday · April 27</div>
+        <div class="day-title">Arrival Day</div>
+        <div class="day-theme">Land, ground, sleep early</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-travel">Travel</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Flight</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Travel to Liberia (LIR)</div>
+            <div class="tb-sub">Viva rep meets group at airport. ~1.5hr private transfer to Sol Sanctuary.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">5 Gratitudes on the plane</span>
+              <span class="dddd-tag tag-mind">No self-deprecation</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Check in + Dinner at Sol Sanctuary</div>
+            <div class="tb-sub">First meal, first impressions. Be curious about everyone at the table.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation</span>
+              <span class="dddd-tag tag-character">Listen fully</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">~10p</div>
+          <div class="tb-dot" style="background:#888"></div>
+          <div class="tb-content">
+            <div class="tb-label">Early night — reset the clock</div>
+            <div class="tb-sub">Travel day = grace day. Basics only. Gratitudes before sleep. Tomorrow the system starts.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+              <span class="dddd-tag tag-basics">Teeth · Moisturizer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Airport walk counts</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Dinner table</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Grace day — skip</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item stake"><strong>Stake:</strong> The 4D system starts tomorrow, not "when you settle in." Settling is drift.</div>
+        <div class="note-item"><strong>First action:</strong> When you land, write one sentence in Notes app about what you want this trip to make you.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APR 28 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Tuesday · April 28</div>
+        <div class="day-title">Day 1 — System On</div>
+        <div class="day-theme">Explore + Class + First green day</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-class">Class</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Wake + Soul block before phone</div>
+            <div class="tb-sub">Before you look at anything: 5 gratitudes, prayer, Bible verse. Then go outside.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">5 Gratitudes</span>
+              <span class="dddd-tag tag-soul">Prayer</span>
+              <span class="dddd-tag tag-soul">Bible verse</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">7:00a</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Morning movement — walk to beach or yoga</div>
+            <div class="tb-sub">Playa Grande is right there. Walk barefoot. 30 min outdoors is automatic.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Yoga / Movement</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">8:00a</div>
+          <div class="tb-dot" style="background:#888"></div>
+          <div class="tb-content">
+            <div class="tb-label">Breakfast at Sol Sanctuary</div>
+            <div class="tb-sub">Protein goal. Creatine. Low sodium. Water starts here.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Protein · Creatine · Water</span>
+              <span class="dddd-tag tag-basics">Face massage after</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">9:00a</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Group explore + safety orientation</div>
+            <div class="tb-sub">Learn the area. This is Connect — talk to classmates you don't know yet.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Compliment 3 people</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">11a–2p</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Class time + Lunch</div>
+            <div class="tb-sub">Buddhist Economics. Take real notes. One thing that connects to Ascend or The Answer.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-craft">Build/brainstorm/learn</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">3:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Free block — Reading + Deep Work</div>
+            <div class="tb-sub">Septology. Then one focused build block: PE prep or Ascend. 45 min max.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Deep work</span>
+              <span class="dddd-tag tag-craft">PE prep</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:00p</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Dinner + real conversation</div>
+            <div class="tb-sub">Ask someone something you actually want to know. Make someone laugh.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation</span>
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+              <span class="dddd-tag tag-character">Listen fully</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">9:30p</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Wind down + Reflection</div>
+            <div class="tb-sub">Workout if not done. Basics. Gratitudes before sleep. Open 4D tracker and log score.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout (if not morning)</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+              <span class="dddd-tag tag-basics">Teeth · Moisturizer · Bed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Morning walk + yoga</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Group explore + dinner</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Afternoon free block</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item stake"><strong>Stake:</strong> Day 1 sets the pattern. A red day here means the system doesn't stick. Don't negotiate with it.</div>
+        <div class="note-item connect"><strong>Connect:</strong> You're with classmates for 18 days. Start being intentional now — not when it feels comfortable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APR 29-30 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Wednesday–Thursday · April 29–30</div>
+        <div class="day-title">Class Days + Guest Speaker</div>
+        <div class="day-theme">Rhythm building. Guest entrepreneur Apr 29.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-class">Class</span>
+        <span class="badge badge-group">Speaker</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🎤</div>
+        <div>Apr 29: Local entrepreneur speaks on sustainable + mindful business. <strong>Ask a real question.</strong> Don't let the session end without saying something.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + movement</div>
+            <div class="tb-sub">Same sequence: gratitudes → prayer → verse → outside. The routine is the point.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Soul block</span>
+              <span class="dddd-tag tag-body">Movement / yoga</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">8:00a</div>
+          <div class="tb-dot" style="background:#888"></div>
+          <div class="tb-content">
+            <div class="tb-label">Breakfast + body basics</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Protein · Creatine · Water</span>
+              <span class="dddd-tag tag-basics">Face massage</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">9a–1p</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Class + discussion</div>
+            <div class="tb-sub">No judgment practice during class. Engage fully — this is Buddhist Economics, let it actually land.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-mind">No self-deprecation</span>
+              <span class="dddd-tag tag-craft">Build/learn (class notes)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">2:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Free block — workout + deep work</div>
+            <div class="tb-sub">Workout first (30–45 min). Then 45 min focused build. Alternate: Ascend one day, The Answer next, PE prep the third.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-craft">Deep work</span>
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Apr 29</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Guest speaker — sustainable entrepreneur</div>
+            <div class="tb-sub">Pre-write one real question. Connect their model to your work on Ascend or The Answer.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Say no to passive listening</span>
+              <span class="dddd-tag tag-craft">Build/brainstorm</span>
+              <span class="dddd-tag tag-formula">Connect ✓</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">9:00p</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Wind down + reflection + 4D log</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+              <span class="dddd-tag tag-basics">Basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Morning + afternoon workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Class + speaker engagement</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Afternoon free block</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 1 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Friday · May 1</div>
+        <div class="day-title">Ocean Exploration Day</div>
+        <div class="day-theme">Snorkeling half-day. Afternoon reflection.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Excursion</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🐠</div>
+        <div>Ocean conservation half-day trip with a local team. Snorkeling in the Pacific. This <em>is</em> your workout, your outdoors, your connection to something bigger.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + walk to beach</div>
+            <div class="tb-sub">5 gratitudes. Prayer. Verse. Walk to the water before the group wakes up.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+              <span class="dddd-tag tag-mind">10 min silence at water</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">8:00a</div>
+          <div class="tb-dot" style="background:#888"></div>
+          <div class="tb-content">
+            <div class="tb-label">Breakfast + body basics</div>
+            <div class="tb-dddd"><span class="dddd-tag tag-body">Protein · Creatine · Water</span></div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Ocean Exploration — snorkeling + conservation</div>
+            <div class="tb-sub">This counts as workout AND outdoors. Be present. Talk to the local guides — that's real conversation.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout ✓</span>
+              <span class="dddd-tag tag-body">30 min outdoors ✓</span>
+              <span class="dddd-tag tag-character">Real conversation</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">1:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Lunch + Afternoon reflection (scheduled)</div>
+            <div class="tb-sub">Journaling time is built in. Write about what you saw. One insight for The Answer or Ascend from the ocean experience.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Build/brainstorm (write the insight)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">4:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Free block — deep work</div>
+            <div class="tb-sub">Energy will be lower after water. PE prep is lighter cognitive load — good fit for today.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-craft">PE prep</span>
+              <span class="dddd-tag tag-craft">Deep work block</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Snorkeling = workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Local guides + group</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Reflection insight → PE prep</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 2 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Saturday · May 2</div>
+        <div class="day-title">Rest + Recover Day</div>
+        <div class="day-theme">Journaling, optional yoga, unstructured. Protect it.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-free">Free</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">7:00a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block — slow morning</div>
+            <div class="tb-sub">This is your unstructured day. Lean into it. Don't manufacture busyness.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">8:00a</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Optional yoga + beach walk</div>
+            <div class="tb-sub">If yoga is offered, go. If not, walk the beach for 30 min. This is the softest move requirement of the week.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Yoga / movement</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">10:00a</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Reading + journaling block</div>
+            <div class="tb-sub">Septology. Then journal: what's working in the DDDD system so far? What's the hardest item?</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Build/brainstorm (system audit)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">2:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Workout + one craft block</div>
+            <div class="tb-sub">Rest day doesn't mean no workout. 30–40 min. Then one light build block — Ascend feature idea or inbox dump.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-craft">Ascend or The Answer</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Social dinner + wind down</div>
+            <div class="tb-sub">Compliment 3 people. Make someone laugh. Rest days are Character days.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Compliment 3 people</span>
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Yoga + afternoon workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Dinner + social</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Light — journal + inbox</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item"><strong>Rest day rule:</strong> Rest means no class, not no system. Every single pillar still gets touched. A true rest day is still a green day.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 3 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Sunday · May 3</div>
+        <div class="day-title">Sea Turtle Research Day</div>
+        <div class="day-theme">Conservation experience. Say no to something today.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Excursion</span>
+        <span class="badge badge-free">Free PM</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🐢</div>
+        <div>Sea turtle conservation team visit. Learn about nesting species and sustainable tourism. This is the kind of thing that changes how you think about business — bring that lens.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + beach walk</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Sea Turtle Research Experience</div>
+            <div class="tb-sub">Connect the conservation model to Buddhist Economics. How does sustainable tourism relate to how The Answer generates community?</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation (guides)</span>
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-craft">Brainstorm connection to The Answer</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">2:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Afternoon free — coursework or build</div>
+            <div class="tb-sub">Two options: catch up on coursework, or focused build session. Don't do both half-way.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-craft">Deep work block</span>
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">5:00p</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Workout</div>
+            <div class="tb-sub">Day hasn't had structured movement yet. 30–40 min. Done before dinner.</div>
+            <div class="tb-dddd"><span class="dddd-tag tag-body">Workout</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Afternoon workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Conservation team</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Free afternoon block</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 4 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Monday · May 4</div>
+        <div class="day-title">Class + Guest Speaker</div>
+        <div class="day-theme">Buddhist Economics entrepreneur. Ask the hard question.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-class">Class</span>
+        <span class="badge badge-group">Speaker</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🎤</div>
+        <div>Guest speaker: local entrepreneur aligned with Buddhist Economics. Sustainability + mindfulness in business. <strong>Ask about trade-offs</strong> — when does doing the right thing cost money, and how did they decide it was worth it?</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + movement</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Yoga / walk</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">9a–1p</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Coursework + discussion + reflection</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-craft">Learn (class notes)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Afternoon</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Guest Speaker</div>
+            <div class="tb-sub">Pre-write your question. Connect their model to PE analysis — how would Mountaingate evaluate a Buddhist Economics business?</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-craft">PE prep lens</span>
+              <span class="dddd-tag tag-character">Real conversation</span>
+              <span class="dddd-tag tag-formula">Connect ✓</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">4:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Workout + deep work</div>
+            <div class="tb-sub">Physical first. Then focused build — The Answer progress or Ascend. 45 min cap.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-craft">The Answer or Ascend</span>
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Morning + afternoon</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Speaker conversation</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Afternoon free block</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 5 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Tuesday · May 5</div>
+        <div class="day-title">Rincon de la Vieja Volcano Hike</div>
+        <div class="day-theme">Full day excursion. Move is done. Protect evening build.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Full Day</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🌋</div>
+        <div>Hiking, waterfall, volcanic hot springs, working hacienda lunch, geothermal power plant visit. Full day. Move is completely handled — workout, outdoors, and then some.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:00a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Early soul block — before departure</div>
+            <div class="tb-sub">Group departs early. Do soul block before you leave the bungalow.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">All day</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Rincon de la Vieja — hike, waterfall, hot springs</div>
+            <div class="tb-sub">Waterfall = try something new. Geothermal plant = connect to Buddhist Economics. Hot springs = the face massage writes itself.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout ✓ (hiking)</span>
+              <span class="dddd-tag tag-body">30 min outdoors ✓</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+              <span class="dddd-tag tag-character">Compliment 3 people</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Return</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Septology on the ride back</div>
+            <div class="tb-sub">~2hr drive back. Perfect for reading. No phone, no scroll — book in hand.</div>
+            <div class="tb-dddd"><span class="dddd-tag tag-mind">Reading — Septology</span></div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">8:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Light build block — 30 min max</div>
+            <div class="tb-sub">You'll be tired. Inbox dump or PE prep only. No heavy coding. Craft is checked, body is handled.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-craft">Inbox dump or PE prep</span>
+              <span class="dddd-tag tag-basics">Basics + early sleep</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Hiking = full workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Group all day</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Light evening — inbox only</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item"><strong>Best green day opportunity of the week.</strong> Move is handled by 10am. Character items happen naturally in a group all day. Protect the evening for the light build and you hit 85%+ easily.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 6 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Wednesday · May 6</div>
+        <div class="day-title">Class + Agriculture Speaker</div>
+        <div class="day-theme">Regenerative farming. PE prep focus today.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-class">Class</span>
+        <span class="badge badge-group">Speaker</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🌱</div>
+        <div>Guest speaker: Costa Rican expert on sustainable agriculture and regenerative farming. <strong>PE lens:</strong> what's the unit economics of a regenerative farm? How do you diligence this as an investor?</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + morning movement</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Movement / yoga</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">All day</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Class + discussion + speaker</div>
+            <div class="tb-sub">Standard class day structure. Speaker in afternoon — ask about capital requirements for regenerative transition.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-craft">PE prep lens on speaker</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">4:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Workout + focused PE prep block</div>
+            <div class="tb-sub">Today's craft focus is PE prep specifically — LBO thinking or memo writing. 45 min after workout.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-craft">PE prep ✓</span>
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Morning + afternoon workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Speaker + class</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">PE prep focused</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 7 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Thursday · May 7</div>
+        <div class="day-title">Coffee, Chocolate + Wildlife</div>
+        <div class="day-theme">Fair trade excursion. Last full day at Sol before Rancho.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Excursion</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">☕</div>
+        <div>Coffee, chocolate, and wildlife — fair trade in practice. This is Buddhist Economics made tangible. What does the supply chain look like when it's built ethically? <strong>Ask the producer</strong> what they had to give up to do it this way.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + last beach morning</div>
+            <div class="tb-sub">Tomorrow you leave for Rancho Margot. This is your last Playa Grande morning. Make it count.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Beach walk ✓</span>
+              <span class="dddd-tag tag-mind">10 min silence at water</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">All day</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Coffee, Chocolate + Wildlife Excursion</div>
+            <div class="tb-sub">Move is handled. Character items are easy in this setting — compliment producers, try cacao, talk to the team.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Outdoors ✓</span>
+              <span class="dddd-tag tag-character">Try something new (raw cacao)</span>
+              <span class="dddd-tag tag-character">Real conversation (producers)</span>
+              <span class="dddd-tag tag-character">Compliment 3 people</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Pack + light build + wind down</div>
+            <div class="tb-sub">Pack for Rancho Margot tomorrow. Inbox dump from the week. Workout if not yet done. Gratitudes before sleep.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-craft">Inbox dump</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+              <span class="dddd-tag tag-basics">Pack + basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Excursion + evening workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Fair trade producers</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Evening inbox dump</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- PHASE 2: RANCHO MARGOT (MAY 8-11) -->
+  <!-- ═══════════════════════════════ -->
+
+  <div class="phase-dates" style="margin-top:48px">May 8 – 11 · Rancho Margot, La Fortuna</div>
+  <div class="phase-header">
+    <div class="phase-line"></div>
+    <div class="phase-label">Phase — Rainforest Reset</div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="phase-mission">"Different environment. Same system. This is where consistency gets tested."</div>
+
+  <div class="location-banner">
+    🌿 Dormitory-style lodging. Rainforest setting. Daily yoga included. No beach, no wifi likely. Deep work will be lighter — lean into the experience.
+  </div>
+
+  <!-- MAY 8 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Friday · May 8</div>
+        <div class="day-title">Travel to Rancho Margot</div>
+        <div class="day-theme">4hr drive. Arrive, orient, adapt.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-travel">4hr Drive</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block before departure</div>
+            <div class="tb-sub">Before the 4hr drive. Early morning, early soul block.</div>
+            <div class="tb-dddd"><span class="dddd-tag tag-soul">Full soul block</span></div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Drive</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Septology + silence on the drive</div>
+            <div class="tb-sub">4hrs. No scroll. Read. If audiobooks are your thing, skip — Septology is the tracker item.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Arrive</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Orientation at Rancho Margot</div>
+            <div class="tb-sub">New environment. Be curious. Ask Juan (founder) one real question during orientation.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation (Juan)</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Walk the ranch + early dinner + basics</div>
+            <div class="tb-sub">30 min walk counts as outdoors and movement. Dormitory setup — adapt without complaint.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">30 min outdoors ✓</span>
+              <span class="dddd-tag tag-basics">Settle in, basics</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Ranch walk</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Juan + orientation</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Grace day — skip</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 9-11 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Saturday–Monday · May 9–11</div>
+        <div class="day-title">Rancho Margot Immersion</div>
+        <div class="day-theme">Yoga daily, farm activities, night hike, chocolate making.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Activities</span>
+        <span class="badge badge-group">Group</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🏕</div>
+        <div>Ranch tour · Q&A with Juan · Guided night hike · <strong>Daily yoga (provided)</strong> · Micro-organism workshop · Chocolate making. Move is built into every day. Connect happens naturally. Protect the light build blocks in evenings.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block — rainforest morning</div>
+            <div class="tb-sub">Different than Playa Grande but the sequence is the same. Gratitudes. Prayer. Verse. Then yoga.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Daily yoga (provided by Rancho)</div>
+            <div class="tb-sub">Yoga is on the schedule. Show up. This handles yoga/movement AND contributes to workout.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Yoga ✓</span>
+              <span class="dddd-tag tag-body">Outdoors ✓</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Day</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Ranch activities (rotate daily)</div>
+            <div class="tb-sub">Ranch tour → Q&A Juan → Night hike → Micro-organism workshop → Chocolate making. Each one has a real conversation in it. Don't let them be passive.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation daily</span>
+              <span class="dddd-tag tag-character">Try something new daily</span>
+              <span class="dddd-tag tag-craft">One insight per activity</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Lunch</div>
+          <div class="tb-dot" style="background:#888"></div>
+          <div class="tb-content">
+            <div class="tb-label">Rancho Margot meals</div>
+            <div class="tb-sub">Farm-to-table. This is Buddhist Economics in practice. Protein goal, water, creatine.</div>
+            <div class="tb-dddd"><span class="dddd-tag tag-body">Protein · Water · Creatine</span></div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">4:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Reading + light build (30 min max)</div>
+            <div class="tb-sub">WiFi may be limited. Use that. Septology. Then one inbox dump or PE prep note. No heavy builds.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Inbox dump or PE prep</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Night hike</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Guided night hike (one of the nights)</div>
+            <div class="tb-sub">That's workout + outdoors + try something new all in one. Make someone laugh on the hike.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout ✓</span>
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Yoga daily + activities</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Juan + group + guides</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Light — inbox/PE only</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item"><strong>Rancho rule:</strong> This is the most immersive stretch. Let it be. Build blocks are light intentionally — 30 min max. The experience IS the craft input. Journal what you learn.</div>
+        <div class="note-item stake"><strong>Stake:</strong> You're in a rainforest with no real distractions. If you can't hit 85% here, the system needs fixing, not the environment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- PHASE 3: BACK TO SOL (MAY 11-14) -->
+  <!-- ═══════════════════════════════ -->
+
+  <div class="phase-dates" style="margin-top:48px">May 11 – 14 · Sol Sanctuary, Final Stretch</div>
+  <div class="phase-header">
+    <div class="phase-line"></div>
+    <div class="phase-label">Phase — Close Strong</div>
+    <div class="phase-line"></div>
+  </div>
+  <div class="phase-mission">"Three nights left. Stack the wins. Don't coast to the finish."</div>
+
+  <!-- MAY 11 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Monday · May 11</div>
+        <div class="day-title">Return to Sol Sanctuary</div>
+        <div class="day-theme">4hr drive back. Relax, unwind, reflect.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-travel">4hr Drive</span>
+        <span class="badge badge-free">Rest</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + breakfast + depart</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Protein · Creatine</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Drive</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Septology + Rancho reflection</div>
+            <div class="tb-sub">What changed at Rancho? Write 3 sentences in Notes app about what you'll take forward.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Build/brainstorm (Rancho insights)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Arrive Sol — relax, beach, dinner</div>
+            <div class="tb-sub">You're back. Walk to the beach. The ocean missed you. Light workout or swim.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Movement / swim</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Beach / swim on arrival</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Group dinner</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Rancho reflection notes</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 12 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Tuesday · May 12</div>
+        <div class="day-title">Final Coursework Day</div>
+        <div class="day-theme">Sustainability reflection. Best build day of the trip.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-class">Coursework</span>
+        <span class="badge badge-free">Free PM</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + beach morning</div>
+            <div class="tb-sub">Second-to-last morning at Sol. Treat it like it's the first.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Walk / yoga</span>
+              <span class="dddd-tag tag-body">30 min outdoors</span>
+              <span class="dddd-tag tag-mind">10 min silence</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Coursework + sustainability reflection</div>
+            <div class="tb-sub">Wrap up the academic piece. What's your Buddhist Economics thesis? One paragraph.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">No judgment practice</span>
+              <span class="dddd-tag tag-craft">Build/learn (course synthesis)</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">2:00p</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Best build block of the trip</div>
+            <div class="tb-sub">Free afternoon, full WiFi back, two weeks of CR experience in your brain. This is the day to do the most focused Ascend or The Answer work of the entire trip. 90 min block.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-craft">Deep work ✓</span>
+              <span class="dddd-tag tag-craft">Ascend or The Answer</span>
+              <span class="dddd-tag tag-craft">PE prep</span>
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">5:00p</div>
+          <div class="tb-dot" style="background:#E76F51"></div>
+          <div class="tb-content">
+            <div class="tb-label">Workout + dinner + character items</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout</span>
+              <span class="dddd-tag tag-character">Compliment 3 people</span>
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Morning + evening workout</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Dinner + classmates</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">90min — best block of trip</div></div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item stake"><strong>Stake:</strong> This is your last real build day in Costa Rica. Don't waste the afternoon free block on passive content. Sit down, open Claude Code, build something.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 13 -->
+  <div class="day-card special">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Wednesday · May 13</div>
+        <div class="day-title">Local Farm Visit + Optional Horseback</div>
+        <div class="day-theme">Last full day. Say no to something. Say yes to the horse.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-excursion">Farm Visit</span>
+        <span class="badge badge-free">Optional</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="group-callout">
+        <div class="group-callout-icon">🐴</div>
+        <div>Local sustainable farm visit. Optional horseback riding (extra cost). <strong>If you can afford it, do the horses.</strong> "Try something new" is a pillar item, and you won't get this chance again.</div>
+      </div>
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">6:30a</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Final Sol morning — soul block + beach</div>
+            <div class="tb-sub">Last morning at Sol Sanctuary. Walk to the ocean one more time. Sit with it.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Beach walk</span>
+              <span class="dddd-tag tag-mind">10 min silence — intentional</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#4A90D9"></div>
+          <div class="tb-content">
+            <div class="tb-label">Local farm visit</div>
+            <div class="tb-sub">Sustainably-sourced, ethically-produced food. Ask one real question. Connect their model to Buddhist Economics.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Real conversation</span>
+              <span class="dddd-tag tag-character">Try something new</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Optional</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Horseback riding</div>
+            <div class="tb-sub">Not in the program price. Worth it. This counts as try something new, workout, outdoors.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-body">Workout ✓</span>
+              <span class="dddd-tag tag-body">Outdoors ✓</span>
+              <span class="dddd-tag tag-character">Try something new ✓</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Eve</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">Final dinner + pack + reflection</div>
+            <div class="tb-sub">Run npm run reflect tonight. Score the trip, not just the day. What are you taking to W&L?</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-character">Make someone laugh</span>
+              <span class="dddd-tag tag-soul">Gratitudes before sleep</span>
+              <span class="dddd-tag tag-basics">Pack everything</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-bar">
+        <div class="formula-item"><div class="formula-icon">🏃</div><div class="formula-name">Move</div><div class="formula-val">Horses or farm walk</div></div>
+        <div class="formula-item"><div class="formula-icon">🤝</div><div class="formula-name">Connect</div><div class="formula-val">Farm team + group final</div></div>
+        <div class="formula-item"><div class="formula-icon">🔨</div><div class="formula-name">Build</div><div class="formula-val">Trip reflection (npm run reflect)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAY 14 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-left">
+        <div class="day-date">Thursday · May 14</div>
+        <div class="day-title">Departure Day</div>
+        <div class="day-theme">Breakfast. Transfer to Liberia. Fly home.</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-travel">Departure</span>
+      </div>
+      <div class="day-expand">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Morning</div>
+          <div class="tb-dot" style="background:#C8A96E"></div>
+          <div class="tb-content">
+            <div class="tb-label">Soul block + final breakfast</div>
+            <div class="tb-sub">Last morning. 5 gratitudes, not just the usual — make them about what this trip gave you.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-soul">Full soul block</span>
+              <span class="dddd-tag tag-body">Protein · Creatine</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block time-block-gap">
+          <div class="tb-time">Check-out</div>
+          <div class="tb-dot" style="background:#9B59B6"></div>
+          <div class="tb-content">
+            <div class="tb-label">Private transfer to Liberia International Airport</div>
+            <div class="tb-sub">Septology on the drive. Write one sentence about who you are now vs April 27.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-mind">Reading — Septology</span>
+              <span class="dddd-tag tag-craft">Trip synthesis note</span>
+            </div>
+          </div>
+        </div>
+        <div class="time-block">
+          <div class="tb-time">Flight</div>
+          <div class="tb-dot" style="background:#52B788"></div>
+          <div class="tb-content">
+            <div class="tb-label">W&L final week begins</div>
+            <div class="tb-sub">You land different than you left. The system held. Now close the semester strong.</div>
+            <div class="tb-dddd">
+              <span class="dddd-tag tag-formula">Arc: Week 4 → W&L → Close Strong</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="day-notes">
+        <div class="notes-label">Notes</div>
+        <div class="note-item connect"><strong>Trip metric:</strong> How many green days did you stack? Count them. That number goes into your first W&L reflection. It's the proof of the system.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <div class="closing-title">18 Days. One System.</div>
+    <div class="closing-sub">
+      Move + Connect + Build. Every day, regardless of what's on the group schedule. The itinerary fills your days — the system fills your identity. They don't compete. They compound.
+    </div>
+    <div class="closing-mantra">"I keep my word to myself. That's where confidence lives."</div>
+  </div>
+
+</div>
+
+<script>
+  function toggleDay(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.day-expand');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  // Auto-open today's card based on date
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  // Find matching day header by date text and auto-open it
+  document.querySelectorAll('.day-date').forEach(dateEl => {
+    const text = dateEl.textContent;
+    const dateMap = {
+      'April 27': [4,27], 'April 28': [4,28], 'April 29': [4,29],
+      'April 30': [4,30], 'May 1': [5,1], 'May 2': [5,2],
+      'May 3': [5,3], 'May 4': [5,4], 'May 5': [5,5],
+      'May 6': [5,6], 'May 7': [5,7], 'May 8': [5,8],
+      'May 12': [5,12], 'May 13': [5,13], 'May 14': [5,14]
+    };
+    for (const [label, [m,d]] of Object.entries(dateMap)) {
+      if (text.includes(label) && m === month && d === day) {
+        const header = dateEl.closest('.day-header');
+        if (header) {
+          const body = header.nextElementSibling;
+          const arrow = header.querySelector('.day-expand');
+          body.classList.add('open');
+          arrow.classList.add('open');
+        }
+      }
+    }
+  });
+
+  // Range days (Apr 29-30, May 9-11)
+  if ((month === 4 && (day === 29 || day === 30)) ||
+      (month === 5 && (day >= 9 && day <= 11))) {
+    document.querySelectorAll('.day-header').forEach(header => {
+      const dateText = header.querySelector('.day-date')?.textContent || '';
+      if ((month === 4 && dateText.includes('April 29')) ||
+          (month === 5 && day >= 9 && day <= 11 && dateText.includes('May 9'))) {
+        const body = header.nextElementSibling;
+        const arrow = header.querySelector('.day-expand');
+        body.classList.add('open');
+        arrow.classList.add('open');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
