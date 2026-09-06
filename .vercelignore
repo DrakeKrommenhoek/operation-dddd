@@ -1,0 +1,10 @@
+# vercel.json sets outputDirectory "." — every file here is a candidate for
+# public serving. Deny everything, then name the PWA files explicitly, so a
+# new local file can never become a public URL by accident.
+*
+
+!4D-tracker.html
+!manifest.json
+!sw.js
+!icon-192.png
+!icon-512.png
