@@ -474,23 +474,6 @@
       <div class="phase-label" id="phaseLabel"></div>
       <div class="phase-mission" id="phaseMission"></div>
       <div class="mantra">"I keep my word to myself. That's where confidence lives."</div>
-<div id="phase-banner" style="text-align:center;font-style:italic;color:#C8A96E;font-size:13px;margin-top:8px;padding:0 20px;"></div>
-<script>
-(function(){
-  const PHASES=[
-    {start:"2026-04-20",end:"2026-04-26",name:"Week 1 · Jaco",mission:"Ground yourself. Stack the first wins."},
-    {start:"2026-04-27",end:"2026-05-10",name:"Week 2–3 · Tamarindo",mission:"Build the rhythm. No excuses in paradise."},
-    {start:"2026-05-11",end:"2026-05-17",name:"Week 4 · W&L",mission:"Close strong. Finish what you started."},
-    {start:"2026-05-18",end:"2026-05-24",name:"Week 5 · Home",mission:"Transition with intention. Don't coast."},
-    {start:"2026-05-25",end:"2026-05-31",name:"Pre-Denver",mission:"Almost there. Arrive sharp."},
-    {start:"2026-06-01",end:"2026-06-30",name:"Denver",mission:"Day 1 at Mountaingate. You built this."}
-  ];
-  const _pd=new Date();
-  const today=`${_pd.getFullYear()}-${String(_pd.getMonth()+1).padStart(2,'0')}-${String(_pd.getDate()).padStart(2,'0')}`;
-  const phase=PHASES.find(p=>today>=p.start&&today<=p.end);
-  if(phase)document.getElementById('phase-banner').textContent=phase.name+' — "'+phase.mission+'"';
-})();
-</script>
       <div class="xp-row">
         <span class="xp-lbl">TODAY'S XP</span>
         <span class="xp-val" id="xpVal">0 / 320 XP</span>
@@ -774,7 +757,12 @@ function getPhase() {
     if (mmdd>=511&&mmdd<=517) return { label:'Week 4 · W&L',          mission:'Close strong. Finish what you started.' };
     if (mmdd>=518&&mmdd<=524) return { label:'Week 5 · Home',         mission:"Transition with intention. Don't coast." };
     if (mmdd>=525&&mmdd<=531) return { label:'Pre-Denver',            mission:'Almost there. Arrive sharp.' };
-    if (mmdd>=601)             return { label:'Denver · Mountaingate', mission:'Day 1 at Mountaingate. You built this.' };
+    if (mmdd>=601) {
+      const day = Math.floor((d - new Date(2026,5,1)) / 86400000) + 1;
+      return { label:'Denver · Mountaingate',
+               mission: day <= 1 ? 'Day 1 at Mountaingate. You built this.'
+                                 : `Day ${day} at Mountaingate. Keep your word.` };
+    }
   }
   return { label:'Operation DDDD', mission:'The system is live.' };
 }
@@ -1516,21 +1504,15 @@ function renderSchedule(){
   const blocksEl=document.getElementById('schedule-blocks');
   if(!titleEl||!blocksEl)return;
   if(!day){
-    titleEl.textContent='Costa Rica begins tomorrow';
-    blocksEl.innerHTML=`
-      <div style="font-size:11px;color:#74C69D;margin-bottom:14px;font-style:italic;">Schedule activates April 27 · Sol Sanctuary</div>
-      <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
-        <div style="font-size:10px;font-weight:700;color:#4a6b54;min-width:44px;padding-top:2px;text-align:right;">Tomorrow</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:600;color:#E8F5E9;margin-bottom:4px;">Arrival Day — Land, ground, sleep early</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;">
-            <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${TAG_COLORS['Soul']}22;color:${TAG_COLORS['Soul']}">Soul</span>
-            <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${TAG_COLORS['Body']}22;color:${TAG_COLORS['Body']}">Body</span>
-          </div>
-        </div>
-      </div>`;
+    // No block scheduled for today. Showing a stale trip itinerary is worse
+    // than showing nothing, so the card stays hidden until SCHEDULE has an
+    // entry for the date.
+    const card=document.getElementById('schedule-card');
+    if(card) card.style.display='none';
     return;
   }
+  const card=document.getElementById('schedule-card');
+  if(card) card.style.display='';
   titleEl.textContent=day.title+' — '+day.theme;
   blocksEl.innerHTML=day.blocks.map(b=>`
     <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
