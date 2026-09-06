@@ -598,7 +598,6 @@
 
 <!-- HIDDEN FILE INPUTS -->
 <input type="file" id="bodyInput" accept="image/*" style="display:none" onchange="handleBodyUpload(event)">
-<input type="file" id="momentInput" accept="image/*" multiple style="display:none" onchange="handleMomentUpload(event)">
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLb()">
@@ -1038,7 +1037,7 @@ function renderHeatmap() {
   }
 }
 
-function renderPhoto() { renderBodyCheck(); renderMoments(); }
+function renderPhoto() { renderBodyCheck(); }
 
 function renderBodyCheck() {
   const area   = document.getElementById('bodyArea');
@@ -1065,21 +1064,6 @@ function renderBodyCheck() {
   } else { cr.style.display = 'none'; }
 }
 
-function renderMoments() {
-  const strip   = document.getElementById('momentsStrip');
-  const moments = ld(`dddd_mom_${TODAY}`, []);
-  if (!moments.length) {
-    strip.innerHTML = '<div style="font-size:.72em;color:var(--faint);padding:6px 0">No moments yet.</div>';
-    return;
-  }
-  strip.innerHTML = '';
-  moments.forEach(src => {
-    const img = document.createElement('img');
-    img.src = src; img.className = 'm-thumb';
-    img.onclick = () => openLb(src);
-    strip.appendChild(img);
-  });
-}
 
 // ── ACTIONS ───────────────────────────────────────────────────
 function itemRowClick(e, fi, pi, ii) {
@@ -1160,24 +1144,7 @@ function handleBodyUpload(e) {
   r.readAsDataURL(file); e.target.value = '';
 }
 
-function addMoment() { document.getElementById('momentInput').click(); }
 
-function handleMomentUpload(e) {
-  const files    = Array.from(e.target.files);
-  const existing = ld(`dddd_mom_${TODAY}`, []);
-  let i = 0;
-  function next() {
-    if (i >= files.length) { renderMoments(); e.target.value = ''; return; }
-    const r = new FileReader();
-    r.onload = ev => {
-      existing.push(ev.target.result);
-      try { sv(`dddd_mom_${TODAY}`, existing); } catch { showToast('Storage full'); }
-      i++; next();
-    };
-    r.readAsDataURL(files[i]);
-  }
-  next();
-}
 
 function toggleWall() {
   const grid = document.getElementById('wallGrid');
@@ -1390,7 +1357,6 @@ buildReflectSection();  // build night reflection section
 setTabTop();            // position tab bar below sticky header
 checkRedDay();
 updateFormula();
-renderSchedule();
 
 window.addEventListener('resize', setTabTop);
 setInterval(applyTheme, 60000);
@@ -1586,6 +1552,10 @@ function toggleSchedule(){
   body.style.display=open?'none':'block';
   arrow.style.transform=open?'':'rotate(180deg)';
 }
+
+// SCHEDULE is a const declared above this point; calling renderSchedule()
+// any earlier hits its temporal dead zone and throws.
+renderSchedule();
 </script>
 <script>
   if ('serviceWorker' in navigator) {
