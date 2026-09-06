@@ -15,3 +15,7 @@ logs/
 
 # Local verification scratch (headless Chrome profile, seed/read harnesses)
 _*
+
+# Personal coaching prompts and a past trip itinerary. This repo is public.
+agents/
+cr-dddd-schedule.html
