@@ -12,3 +12,10 @@ logs/
 
 # Working copy kept alongside the real tracker.
 4D-tracker-backup.html
+
+# Local verification scratch (headless Chrome profile, seed/read harnesses)
+_prof/
+_seed.html
+_read.html
+_dom*.html
+_err*.txt
