@@ -1499,7 +1499,9 @@ const TAG_COLORS={
 };
 
 function renderSchedule(){
-  const today=new Date().toISOString().slice(0,10);
+  // TODAY is built from local date parts; toISOString() is UTC, which in
+  // Denver rolls over at 6pm and would look up tomorrow's blocks all evening.
+  const today=TODAY;
   const day=SCHEDULE[today];
   const titleEl=document.getElementById('schedule-day-title');
   const blocksEl=document.getElementById('schedule-blocks');
