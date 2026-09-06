@@ -14,14 +14,4 @@ logs/
 4D-tracker-backup.html
 
 # Local verification scratch (headless Chrome profile, seed/read harnesses)
-_prof/
-_seed.html
-_read.html
-_dom*.html
-_err*.txt
-_measure.html
-_frame390.html
-_probe.html
-_shot*.png
-_true*.png
-_probe.png
+_*
